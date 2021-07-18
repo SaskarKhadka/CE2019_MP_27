@@ -29,7 +29,7 @@ void LinkedList::addToHead(int data) {
   if (this->TAIL == nullptr) {
     this->TAIL = this->HEAD;
   }
-  std::cout << data << " was added to head" << std::endl;
+  // std::cout << data << " was added to head" << std::endl;
 }
 
 // Adds data at the bottom(tail) of list

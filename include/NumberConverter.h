@@ -23,10 +23,10 @@ public:
   bool isHexadecimalNumberValid(char *hexadecimalNo);
 
   // converts a decimal number to binary number
-  int decimalToBinary(char *decimalNo);
+  std::string decimalToBinary(char *decimalNo);
 
   // converts a decimal number to octal number
-  int decimalToOctal(char *decimalNo);
+  std::string decimalToOctal(char *decimalNo);
 
   // converts a decimal number to hexadecimal number
   std::string decimalToHexadecimal(char *decimalNo);
