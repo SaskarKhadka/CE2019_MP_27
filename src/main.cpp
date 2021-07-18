@@ -1,29 +1,17 @@
 #include "../include/LinkedList.h"
-#include "../include/Stack.h"
+#include "../include/NumberConverter.h"
 #include <iostream>
+#include <string.h>
 
 int main() {
-  LinkedStack lStack;
+  NumberConverter numConverter;
   try {
-    lStack.push(66);
-    lStack.push(32);
-    lStack.push(64);
-    lStack.push(11);
-    lStack.push(111);
-    lStack.push(77);
-    lStack.push(19);
-    lStack.push(121);
-    std::cout << lStack.top() << std::endl;
-    std::cout << lStack.pop() << std::endl;
-    std::cout << lStack.pop() << std::endl;
-    std::cout << lStack.pop() << std::endl;
-    std::cout << lStack.pop() << std::endl;
-    std::cout << lStack.pop() << std::endl;
-    std::cout << lStack.pop() << std::endl;
-    std::cout << lStack.top() << std::endl;
-    std::cout << lStack.pop() << std::endl;
-    std::cout << lStack.pop() << std::endl;
-    std::cout << lStack.isEmpty() << std::endl;
+    std::string a = "1100000000000011bcde111111111111111111111111111111111110000aaaaaaaaaaaaaaaaf";
+    std::cout << (char)67 << std::endl;
+    int size = a.length();
+    char b[size];
+    strcpy(b, a.c_str());
+    std::cout << numConverter.isHexadecimalNumberValid(b) << std::endl;
   } catch (std::string error) {
     std::cout << error << std::endl;
   }
