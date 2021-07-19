@@ -1,5 +1,6 @@
 #include "../include/NumberConverter.h"
 #include <iostream>
+#include <math.h>
 #include <string.h>
 
 // checks if the given binary number is valid
@@ -165,4 +166,46 @@ std::string NumberConverter::decimalToHexadecimal(char *decimalNo) {
     return hexadecimalNo;
   }
   throw "The decimal number is not valid";
+}
+
+// converts a binary number to decimal number
+unsigned int NumberConverter::binaryToDecimal(char *binaryNo) {
+  int length = strlen(binaryNo);
+  bool isValid = isBinaryNumberValid(binaryNo);
+  if (isValid) {
+    int power = 0;
+    for (int i = length - 1; i >= 0; i--) {
+      int digit = binaryNo[i] - '0';
+      unsigned int decimal = digit * pow(2, power);
+      stack.push(decimal);
+      power++;
+    }
+    unsigned int decimalNo = 0;
+    while (!stack.isEmpty()) {
+      decimalNo += stack.pop();
+    }
+    return decimalNo;
+  } else {
+    throw "The binary number is not valid";
+  }
+}
+
+// converts a binary number to octal number
+std::string NumberConverter::binaryToOctal(char *binaryNo) {
+  unsigned int decimal = binaryToDecimal(binaryNo);
+  std::string dec = std::to_string(decimal);
+  char decimalNo[dec.size()];
+  strcpy(decimalNo, dec.c_str());
+  std::string octalNo = decimalToOctal(decimalNo);
+  return octalNo;
+}
+
+// converts a binary number to hexadecimal number
+std::string NumberConverter::binaryToHexadecimal(char *binaryNo) {
+   unsigned int decimal = binaryToDecimal(binaryNo);
+  std::string dec = std::to_string(decimal);
+  char decimalNo[dec.size()];
+  strcpy(decimalNo, dec.c_str());
+  std::string octalNo = decimalToHexadecimal(decimalNo);
+  return octalNo;
 }

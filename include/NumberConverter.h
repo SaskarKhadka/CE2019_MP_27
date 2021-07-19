@@ -32,10 +32,10 @@ public:
   std::string decimalToHexadecimal(char *decimalNo);
 
   // converts a binary number to decimal number
-  int binaryToDecimal(char *binaryNo);
+  unsigned int binaryToDecimal(char *binaryNo);
 
   // converts a binary number to octal number
-  int binaryToOctal(char *binaryNo);
+  std::string binaryToOctal(char *binaryNo);
 
   // converts a binary number to hexadecimal number
   std::string binaryToHexadecimal(char *binaryNo);
