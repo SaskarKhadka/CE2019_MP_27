@@ -41,10 +41,10 @@ public:
   std::string binaryToHexadecimal(char *binaryNo);
 
   // converts a octal number to decimal number
-  int octalToDecimal(char *octalNo);
+  unsigned long long octalToDecimal(char *octalNo);
 
   // converts a octal number to binary number
-  int octalToBinary(char *octalNo);
+  std::string octalToBinary(char *octalNo);
 
   // converts a octal number to hexadecimal number
   std::string octalToHexadecimal(char *octalNo);

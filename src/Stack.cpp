@@ -8,18 +8,18 @@ bool LinkedStack::isEmpty() {
 }
 
 // Adds data to the top of the linked stack
-void LinkedStack::push(const int data) {
+void LinkedStack::push(const unsigned long long data) {
   this->linkedList.addToHead(data);
 }
 
 // Removes and returns the value stored at top
-int LinkedStack::pop() {
-    int data = this->linkedList.removeFromHead();
+unsigned long long LinkedStack::pop() {
+    unsigned long long data = this->linkedList.removeFromHead();
     return data;
 }
 
 // Returns the value stored at top
-int LinkedStack::top() {
+unsigned long long LinkedStack::top() {
     int top = linkedList.getHeadInfo();
     return top;
 }

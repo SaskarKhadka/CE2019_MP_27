@@ -38,7 +38,7 @@ bool NumberConverter::isOctalNumberValid(char *octalNo) {
     throw "Only 19 digit numbers are allowed";
   bool isValid = false;
   for (int i = length - 1; i >= 0; i--) {
-    isValid = (octalNo[i] >= 48 && octalNo[i] <= 55) ? false : true;
+    isValid = (octalNo[i] >= 48 && octalNo[i] <= 55) ? true : false;
     if (!isValid)
       return false;
   }
@@ -202,10 +202,53 @@ std::string NumberConverter::binaryToOctal(char *binaryNo) {
 
 // converts a binary number to hexadecimal number
 std::string NumberConverter::binaryToHexadecimal(char *binaryNo) {
-   unsigned int decimal = binaryToDecimal(binaryNo);
+  unsigned int decimal = binaryToDecimal(binaryNo);
   std::string dec = std::to_string(decimal);
   char decimalNo[dec.size()];
   strcpy(decimalNo, dec.c_str());
   std::string octalNo = decimalToHexadecimal(decimalNo);
   return octalNo;
 }
+
+// converts a octal number to decimal number
+unsigned long long NumberConverter::octalToDecimal(char *octalNo) {
+  int length = strlen(octalNo);
+  bool isValid = isOctalNumberValid(octalNo);
+  if (isValid) {
+    int power = 0;
+    for (int i = length - 1; i >= 0; i--) {
+      int digit = octalNo[i] - '0';
+      unsigned long long decimal = digit * pow(8, power);
+      stack.push(decimal);
+      power++;
+    }
+    unsigned long long int decimalNo = 0;
+    while (!stack.isEmpty()) {
+      decimalNo += stack.pop();
+    }
+    return decimalNo;
+  } else {
+    throw "The octal number is not valid";
+  }
+}
+
+// converts a octal number to binary number
+std::string NumberConverter::octalToBinary(char *octalNo) {
+  unsigned long long decimal = octalToDecimal(octalNo);
+  std::string dec = std::to_string(decimal);
+  char decimalNo[dec.size()];
+  strcpy(decimalNo, dec.c_str());
+  std::string binaryNo = decimalToBinary(decimalNo);
+  return binaryNo;
+}
+
+// converts a octal number to hexadecimal number
+std::string NumberConverter::octalToHexadecimal(char *octalNo) {
+  unsigned long long decimal = octalToDecimal(octalNo);
+  std::string dec = std::to_string(decimal);
+  char decimalNo[dec.size()];
+  strcpy(decimalNo, dec.c_str());
+  std::string hexadecimalNo = decimalToHexadecimal(decimalNo);
+  return hexadecimalNo;
+}
+

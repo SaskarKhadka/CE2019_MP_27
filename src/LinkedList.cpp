@@ -2,7 +2,7 @@
 #include <iostream>
 
 // Returns the value stored at head
-int LinkedList::getHeadInfo() {
+unsigned long long LinkedList::getHeadInfo() {
   if (!isEmpty())
     return this->HEAD->info;
   else
@@ -10,7 +10,7 @@ int LinkedList::getHeadInfo() {
 }
 
 // Returns the value stored at tail
-int LinkedList::getTailInfo() {
+unsigned long long LinkedList::getTailInfo() {
   if (!isEmpty())
     return this->TAIL->info;
   else
@@ -21,7 +21,7 @@ int LinkedList::getTailInfo() {
 bool LinkedList::isEmpty() { return this->HEAD == nullptr ? true : false; }
 
 // Adds data at the top(head) of list
-void LinkedList::addToHead(int data) {
+void LinkedList::addToHead(unsigned long long data) {
   Node *newNode = new Node();
   newNode->info = data;
   newNode->next = this->HEAD;
@@ -33,7 +33,7 @@ void LinkedList::addToHead(int data) {
 }
 
 // Adds data at the bottom(tail) of list
-void LinkedList::addToTail(int data) {
+void LinkedList::addToTail(unsigned long long data) {
   Node *newNode = new Node();
   newNode->info = data;
   newNode->next = nullptr;
@@ -62,7 +62,7 @@ void LinkedList::traverse(char seperator) {
 }
 
 // Adds data next to the given predecessor
-void LinkedList::add(int data, Node *predecessor) {
+void LinkedList::add(unsigned long long data, Node *predecessor) {
   if (predecessor == TAIL)
     addToTail(data);
   else if (predecessor == nullptr)
@@ -77,8 +77,8 @@ void LinkedList::add(int data, Node *predecessor) {
 }
 
 // Removes and returns data from the top(head)
-int LinkedList::removeFromHead() {
-  int data;
+unsigned long long LinkedList::removeFromHead() {
+  unsigned long long data;
   if (!isEmpty()) {
     Node *nodeToDelete = this->HEAD;
     data = nodeToDelete->info;
@@ -98,8 +98,8 @@ int LinkedList::removeFromHead() {
 }
 
 // Removes and returns data from the bottom(tail)
-int LinkedList::removeFromTail() {
-  int data;
+unsigned long long LinkedList::removeFromTail() {
+  unsigned long long data;
   if (!isEmpty()) {
     Node *nodeToDelete = this->TAIL;
     data = nodeToDelete->info;
@@ -123,7 +123,7 @@ int LinkedList::removeFromTail() {
 }
 
 // Removes the given data from the list
-void LinkedList::remove(int data) {
+void LinkedList::remove(unsigned long long data) {
 
   if (!isEmpty()) {
 
@@ -153,7 +153,7 @@ void LinkedList::remove(int data) {
 }
 
 // Searches if the given data exists in the list
-bool LinkedList::search(int data) {
+bool LinkedList::search(unsigned long long data) {
 
   if (!isEmpty()) {
     Node *temp = this->HEAD;
@@ -169,7 +169,7 @@ bool LinkedList::search(int data) {
 }
 
 // Searches and returns the node which contains the given data
-Node *LinkedList::retrive(int data, Node *dataOutPointer) {
+Node *LinkedList::retrive(unsigned long long data, Node *dataOutPointer) {
 
   if (!isEmpty()) {
     Node *temp = this->HEAD;
