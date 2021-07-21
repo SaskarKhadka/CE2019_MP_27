@@ -7,7 +7,7 @@
 bool NumberConverter::isBinaryNumberValid(char *binaryNo) { // unsigned int
   int length = strlen(binaryNo);
   if (length > 19)
-    throw "Only 19 digit numbers are allowed";
+    throw "Only 19 digit numbers are allowed for binary manipulations";
   bool isValid = false;
   for (int i = length - 1; i >= 0; i--) {
     isValid = (binaryNo[i] - '0') > 1 ? false : true;
@@ -21,7 +21,7 @@ bool NumberConverter::isBinaryNumberValid(char *binaryNo) { // unsigned int
 bool NumberConverter::isDecimalNumberValid(char *decimalNo) {
   int length = strlen(decimalNo);
   if (length > 19)
-    throw "Only 19 digit numbers are allowed";
+    throw "Only 19 digit numbers are allowed for decimal manipulations";
   bool isValid = false;
   for (int i = length - 1; i >= 0; i--) {
     isValid = (decimalNo[i] >= 48 && decimalNo[i] <= 57) ? true : false;
@@ -35,7 +35,7 @@ bool NumberConverter::isDecimalNumberValid(char *decimalNo) {
 bool NumberConverter::isOctalNumberValid(char *octalNo) {
   int length = strlen(octalNo);
   if (length > 19)
-    throw "Only 19 digit numbers are allowed";
+    throw "Only 19 digit numbers are allowed for octal manipulations";
   bool isValid = false;
   for (int i = length - 1; i >= 0; i--) {
     isValid = (octalNo[i] >= 48 && octalNo[i] <= 55) ? true : false;
@@ -48,6 +48,8 @@ bool NumberConverter::isOctalNumberValid(char *octalNo) {
 // checks if the given hexadecimal number is valid
 bool NumberConverter::isHexadecimalNumberValid(char *hexadecimalNo) {
   int length = strlen(hexadecimalNo);
+  if (length > 16)
+    throw "Only 16 digit numbers are allowed for hexadecimal manipulations";
   bool isValid = false;
   // 48 to 57 -> 0 to 9
   // 65 to 70 -> A to F
@@ -252,3 +254,80 @@ std::string NumberConverter::octalToHexadecimal(char *octalNo) {
   return hexadecimalNo;
 }
 
+// converts a hexadecimal number to decimal number
+unsigned long long NumberConverter::hexadecimalToDecimal(char *hexadecimalNo) {
+  int length = strlen(hexadecimalNo);
+  bool isValid = isHexadecimalNumberValid(hexadecimalNo);
+  if (isValid) {
+    int power = 0;
+    int hexNum;
+    for (int i = length - 1; i >= 0; i--) {
+      switch (hexadecimalNo[i]) {
+        
+      case 'A':
+      case 'a':
+        hexNum = 10;
+        break;
+
+      case 'B':
+      case 'b':
+        hexNum = 11;
+        break;
+
+      case 'C':
+      case 'c':
+        hexNum = 12;
+        break;
+
+      case 'D':
+      case 'd':
+        hexNum = 13;
+        break;
+
+      case 'E':
+      case 'e':
+        hexNum = 14;
+        break;
+
+      case 'F':
+      case 'f':
+        hexNum = 15;
+        break;
+
+      default:
+        hexNum = hexadecimalNo[i] - '0';
+        break;
+      }
+      unsigned long long decimal = hexNum * pow(16, power);
+      stack.push(decimal);
+      power++;
+    }
+    unsigned long long decimalNo = 0;
+    while (!stack.isEmpty()) {
+      decimalNo += stack.pop();
+    }
+    return decimalNo;
+  } else {
+    throw "The hexadecimal number is not valid";
+  }
+}
+
+// converts a hexadecimal number to binary number
+std::string NumberConverter::hexadecimalToBinary(char *hexadecimalNo) {
+  unsigned long long decimal = hexadecimalToDecimal(hexadecimalNo);
+  std::string dec = std::to_string(decimal);
+  char decimalNo[dec.size()];
+  strcpy(decimalNo, dec.c_str());
+  std::string binaryNo = decimalToBinary(decimalNo);
+  return binaryNo;
+}
+
+// converts a hexadecimal number to octal number
+std::string NumberConverter::hexadecimalToOctal(char *hexadecimalNo) {
+  unsigned long long decimal = hexadecimalToDecimal(hexadecimalNo);
+  std::string dec = std::to_string(decimal);
+  char decimalNo[dec.size()];
+  strcpy(decimalNo, dec.c_str());
+  std::string octalNo = decimalToOctal(decimalNo);
+  return octalNo;
+}

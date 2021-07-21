@@ -50,11 +50,11 @@ public:
   std::string octalToHexadecimal(char *octalNo);
 
   // converts a hexadecimal number to decimal number
-  int hexadecimalToDecimal(char *hexadecimalNo);
+  unsigned long long hexadecimalToDecimal(char *hexadecimalNo);
 
   // converts a hexadecimal number to binary number
-  int hexadecimalToBinary(char *hexadecimalNo);
+  std::string hexadecimalToBinary(char *hexadecimalNo);
 
   // converts a hexadecimal number to octal number
-  int hexadecimalToOctal(char *hexadecimalNo);
+  std::string hexadecimalToOctal(char *hexadecimalNo);
 };
