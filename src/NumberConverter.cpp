@@ -72,7 +72,8 @@ bool NumberConverter::isHexadecimalNumberValid(char *hexadecimalNo) {
 }
 
 // converts a decimal number to binary number
-std::string NumberConverter::decimalToBinary(char *decimalNo) {
+std::string NumberConverter::decimalToBinary(char *decimalNo,
+                                             char *floatDecimalNo) {
   int length = strlen(decimalNo);
 
   bool isValid = isDecimalNumberValid(decimalNo);
@@ -88,14 +89,37 @@ std::string NumberConverter::decimalToBinary(char *decimalNo) {
       int binary = stack.pop();
       binaryNo += std::to_string(binary);
     }
-    std::cout << sizeof(binaryNo) << std::endl;
+    // std::cout << sizeof(binaryNo) << std::endl;
+    // return binaryNo;
+
+    if (floatDecimalNo != nullptr) {
+      // binaryNo = binaryNo + "0";
+      int length = strlen(floatDecimalNo);
+      unsigned long long floatDec = strtoull(floatDecimalNo, nullptr, 10);
+      long double floatDecimal = (long double)floatDec / pow(10, length);
+      int temp = 0;
+      for (int i = 0; i < 6 && floatDecimal != 0; i++) {
+        // floatDecimal -= temp; // See below
+        floatDecimal *= 2;
+        temp = (int)floatDecimal;
+        stack.push(temp);
+        floatDecimal -= temp;
+      }
+      std::string floatBinaryNo = "";
+      while (!stack.isEmpty()) {
+        int binary = stack.pop();
+        floatBinaryNo = std::to_string(binary) + floatBinaryNo;
+      }
+      return binaryNo + "." + floatBinaryNo;
+    }
     return binaryNo;
   }
   throw "The decimal number is not valid";
 }
 
 // converts a decimal number to octal number
-std::string NumberConverter::decimalToOctal(char *decimalNo) {
+std::string NumberConverter::decimalToOctal(char *decimalNo,
+                                            char *floatDecimalNo) {
   int length = strlen(decimalNo);
 
   bool isValid = isDecimalNumberValid(decimalNo);
@@ -111,13 +135,34 @@ std::string NumberConverter::decimalToOctal(char *decimalNo) {
       int octal = stack.pop();
       octalNo += std::to_string(octal);
     }
+    // return octalNo;
+    if (floatDecimalNo != nullptr) {
+      int length = strlen(floatDecimalNo);
+      unsigned long long floatDec = strtoull(floatDecimalNo, nullptr, 10);
+      long double floatDecimal = (long double)floatDec / pow(10, length);
+      int temp = 0;
+      for (int i = 0; i < 6 && floatDecimal != 0; i++) {
+        // floatDecimal -= temp; // See below
+        floatDecimal *= 8;
+        temp = (int)floatDecimal;
+        stack.push(temp);
+        floatDecimal -= temp;
+      }
+      std::string floatOctalNo = "";
+      while (!stack.isEmpty()) {
+        int octal = stack.pop();
+        floatOctalNo = std::to_string(octal) + floatOctalNo;
+      }
+      return octalNo + "." + floatOctalNo;
+    }
     return octalNo;
   }
   throw "The decimal number is not valid";
 }
 
 // converts a decimal number to hexadecimal number
-std::string NumberConverter::decimalToHexadecimal(char *decimalNo) {
+std::string NumberConverter::decimalToHexadecimal(char *decimalNo,
+                                                  char *floatDecimalNo) {
   int length = strlen(decimalNo);
 
   bool isValid = isDecimalNumberValid(decimalNo);
@@ -164,6 +209,58 @@ std::string NumberConverter::decimalToHexadecimal(char *decimalNo) {
       }
 
       hexadecimalNo += charHex;
+    }
+    // return hexadecimalNo;
+
+    if (floatDecimalNo != nullptr) {
+      int length = strlen(floatDecimalNo);
+      unsigned long long floatDec = strtoull(floatDecimalNo, nullptr, 10);
+      long double floatDecimal = (long double)floatDec / pow(10, length);
+      int temp = 0;
+      for (int i = 0; i < 6 && floatDecimal != 0; i++) {
+        // floatHexadecimal -= temp;
+        floatDecimal *= 16;
+        temp = (int)floatDecimal;
+        stack.push(temp);
+        floatDecimal -= temp;
+      }
+      std::string floatHexadecimalNo = "";
+      char floatCharHex;
+      while (!stack.isEmpty()) {
+        int hex = stack.pop();
+        switch (hex) {
+        case 10:
+          floatCharHex = 'A';
+          break;
+
+        case 11:
+          floatCharHex = 'B';
+          break;
+
+        case 12:
+          floatCharHex = 'C';
+          break;
+
+        case 13:
+          floatCharHex = 'D';
+          break;
+
+        case 14:
+          floatCharHex = 'E';
+
+          break;
+
+        case 15:
+          floatCharHex = 'F';
+          break;
+
+        default:
+          floatCharHex = '0' + hex;
+          break;
+        }
+        floatHexadecimalNo = floatCharHex + floatHexadecimalNo;
+      }
+      return hexadecimalNo + "." + floatHexadecimalNo;
     }
     return hexadecimalNo;
   }
@@ -263,7 +360,7 @@ unsigned long long NumberConverter::hexadecimalToDecimal(char *hexadecimalNo) {
     int hexNum;
     for (int i = length - 1; i >= 0; i--) {
       switch (hexadecimalNo[i]) {
-        
+
       case 'A':
       case 'a':
         hexNum = 10;

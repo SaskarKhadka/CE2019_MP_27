@@ -11,25 +11,26 @@ public:
   NumberConverter() {}
 
   // checks if the given binary number is valid
-  bool isBinaryNumberValid(char* binaryNo);
+  bool isBinaryNumberValid(char *binaryNo);
 
   // checks if the given decimal number is valid
-  bool isDecimalNumberValid(char* decimalNo);
+  bool isDecimalNumberValid(char *decimalNo);
 
   // checks if the given octal number is valid
-  bool isOctalNumberValid(char* octalNo);
+  bool isOctalNumberValid(char *octalNo);
 
   // checks if the given hexadecimal number is valid
   bool isHexadecimalNumberValid(char *hexadecimalNo);
 
   // converts a decimal number to binary number
-  std::string decimalToBinary(char *decimalNo);
+  std::string decimalToBinary(char *decimalNo, char *floatDecimal = nullptr);
 
   // converts a decimal number to octal number
-  std::string decimalToOctal(char *decimalNo);
+  std::string decimalToOctal(char *decimalNo, char *floatDecimal = nullptr);
 
   // converts a decimal number to hexadecimal number
-  std::string decimalToHexadecimal(char *decimalNo);
+  std::string decimalToHexadecimal(char *decimalNo,
+                                   char *floatDecimal = nullptr);
 
   // converts a binary number to decimal number
   unsigned int binaryToDecimal(char *binaryNo);
