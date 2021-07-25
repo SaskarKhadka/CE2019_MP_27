@@ -377,7 +377,7 @@ std::string NumberConverter::binaryToHexadecimal(char *binaryNo,
 }
 
 // converts a octal number to decimal number
-unsigned long long NumberConverter::octalToDecimal(char *octalNo) {
+long double NumberConverter::octalToDecimal(char *octalNo, char *floatOctalNo) {
   int length = strlen(octalNo);
   bool isValid = isOctalNumberValid(octalNo);
   if (isValid) {
@@ -392,17 +392,57 @@ unsigned long long NumberConverter::octalToDecimal(char *octalNo) {
     while (!stack.isEmpty()) {
       decimalNo += stack.pop();
     }
+    // return decimalNo;
+    if (floatOctalNo != nullptr) {
+      int length = strlen(floatOctalNo);
+      // unsigned long long binary = strtoull(floatOctalNo, nullptr, 10);
+      // int power = -1;
+      for (int i = length - 1; i >= 0; i--) {
+        int digit = floatOctalNo[i] - '0';
+        // long double decimal = digit * pow(2, power);
+        stack.push(digit);
+        // power--;
+      }
+      int power = -1;
+      long double floatDecimalNo = 0;
+      while (!stack.isEmpty()) {
+        int digit = stack.top();
+        floatDecimalNo += digit * pow(8, power);
+        power--;
+        stack.pop();
+      }
+      return decimalNo + floatDecimalNo;
+    }
     return decimalNo;
-  } else {
-    throw "The octal number is not valid";
   }
+  throw "The octal number is not valid";
 }
 
-
 // converts a octal number to binary number
-std::string NumberConverter::octalToBinary(char *octalNo) {
-  unsigned long long decimal = octalToDecimal(octalNo);
+std::string NumberConverter::octalToBinary(char *octalNo, char *floatOctalNo) {
+  long double decimal = octalToDecimal(octalNo, floatOctalNo);
   std::string dec = std::to_string(decimal);
+  if (dec.find(".") < dec.size()) {
+    std::string integralDec = "";
+    std::string floatDec = "";
+    // std::string integral = "";
+    // std::string floating = "";
+    // bool isFloatingPart = false;
+    for (int i = 0; i < dec.size(); i++) {
+      if (i < dec.find(".")) {
+        integralDec += dec[i];
+      }
+      if (i > dec.find(".")) {
+        floatDec += dec[i];
+      }
+    }
+    char intPart[integralDec.size()];
+    char floatPart[floatDec.size()];
+    strcpy(intPart, integralDec.c_str());
+    strcpy(floatPart, floatDec.c_str());
+    std::string binaryNo = decimalToBinary(intPart, floatPart);
+    return binaryNo;
+  }
   char decimalNo[dec.size()];
   strcpy(decimalNo, dec.c_str());
   std::string binaryNo = decimalToBinary(decimalNo);
@@ -410,9 +450,31 @@ std::string NumberConverter::octalToBinary(char *octalNo) {
 }
 
 // converts a octal number to hexadecimal number
-std::string NumberConverter::octalToHexadecimal(char *octalNo) {
-  unsigned long long decimal = octalToDecimal(octalNo);
+std::string NumberConverter::octalToHexadecimal(char *octalNo,
+                                                char *floatOctalNo) {
+  long double decimal = octalToDecimal(octalNo, floatOctalNo);
   std::string dec = std::to_string(decimal);
+  if (dec.find(".") < dec.size()) {
+    std::string integralDec = "";
+    std::string floatDec = "";
+    // std::string integral = "";
+    // std::string floating = "";
+    // bool isFloatingPart = false;
+    for (int i = 0; i < dec.size(); i++) {
+      if (i < dec.find(".")) {
+        integralDec += dec[i];
+      }
+      if (i > dec.find(".")) {
+        floatDec += dec[i];
+      }
+    }
+    char intPart[integralDec.size()];
+    char floatPart[floatDec.size()];
+    strcpy(intPart, integralDec.c_str());
+    strcpy(floatPart, floatDec.c_str());
+    std::string hexadecimalNo = decimalToHexadecimal(intPart, floatPart);
+    return hexadecimalNo;
+  }
   char decimalNo[dec.size()];
   strcpy(decimalNo, dec.c_str());
   std::string hexadecimalNo = decimalToHexadecimal(decimalNo);

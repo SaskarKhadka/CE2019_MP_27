@@ -23,32 +23,33 @@ public:
   bool isHexadecimalNumberValid(char *hexadecimalNo);
 
   // converts a decimal number to binary number
-  std::string decimalToBinary(char *decimalNo, char *floatDecimal = nullptr);
+  std::string decimalToBinary(char *decimalNo, char *floatDecimalNo = nullptr);
 
   // converts a decimal number to octal number
-  std::string decimalToOctal(char *decimalNo, char *floatDecimal = nullptr);
+  std::string decimalToOctal(char *decimalNo, char *floatDecimalNo = nullptr);
 
   // converts a decimal number to hexadecimal number
   std::string decimalToHexadecimal(char *decimalNo,
-                                   char *floatDecimal = nullptr);
+                                   char *floatDecimalNo = nullptr);
 
   // converts a binary number to decimal number
-  unsigned int binaryToDecimal(char *binaryNo);
+  long double binaryToDecimal(char *binaryNo, char *floatBinaryNo = nullptr);
 
   // converts a binary number to octal number
-  std::string binaryToOctal(char *binaryNo);
+  std::string binaryToOctal(char *binaryNo, char *floatBinaryNo = nullptr);
 
   // converts a binary number to hexadecimal number
-  std::string binaryToHexadecimal(char *binaryNo);
+  std::string binaryToHexadecimal(char *binaryNo,
+                                  char *floatBinaryNo = nullptr);
 
   // converts a octal number to decimal number
-  unsigned long long octalToDecimal(char *octalNo);
+  long double octalToDecimal(char *octalNo, char *floatOctalNo = nullptr);
 
   // converts a octal number to binary number
-  std::string octalToBinary(char *octalNo);
+  std::string octalToBinary(char *octalNo, char *floatOctalNo = nullptr);
 
   // converts a octal number to hexadecimal number
-  std::string octalToHexadecimal(char *octalNo);
+  std::string octalToHexadecimal(char *octalNo, char *floatOctalNo = nullptr);
 
   // converts a hexadecimal number to decimal number
   unsigned long long hexadecimalToDecimal(char *hexadecimalNo);

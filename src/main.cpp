@@ -38,7 +38,7 @@ int main() {
       char floatPart[floating.size()];
       strcpy(intPart, integral.c_str());
       strcpy(floatPart, floating.c_str());
-      std::string intOctal = numConverter.binaryToHexadecimal(intPart, floatPart);
+      std::string intOctal = numConverter.octalToBinary(intPart, floatPart);
       std::cout << "The decimal no is: " << std::fixed << intOctal << std::endl;
 
     } else {
