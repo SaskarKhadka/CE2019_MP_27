@@ -3,170 +3,225 @@
 #include <math.h>
 #include <string.h>
 
+/*
+48 to 57 -> 0 to 9
+65 to 70 -> A to F
+97 to 102 -> a to f
+*/
+
 // checks if the given binary number is valid
-bool NumberConverter::isBinaryNumberValid(char *binaryNo) { // unsigned int
-  int length = strlen(binaryNo);
-  if (length > 19)
-    throw "Only 19 digit numbers are allowed for binary manipulations";
+bool NumberConverter::isBinaryNumberValid(std::string binaryNo) {
+  int length = binaryNo.length();
+  unsigned int location = binaryNo.find(".");
+
+  if (length == 1 && location == 0)
+    return false;
+  if (location > (length - 1) && length > 19)
+    throw "Only 19 integer digit are allowed for binary manipulations";
+
+  if (location < length && location > 19)
+    throw "Only 19 integer digit are allowed for binary manipulations";
+  // std::cout << length - location +1 << std::endl;
+  if (location < length && (length - location - 1) > 19)
+    throw "Only 19 floating digits are allowed for binary manipulations";
+
   bool isValid = false;
-  for (int i = length - 1; i >= 0; i--) {
-    isValid = binaryNo[i] == 48 || binaryNo[i] == 49 ? true : false;
-    if (!isValid)
+  int index = 0;
+  for (int i = 0; i < length; i++) {
+    isValid = binaryNo[i] == '0' || binaryNo[i] == '1' || binaryNo[i] == '.'
+                  ? true
+                  : false;
+    index = binaryNo[i] == '.' ? ++index : index;
+    if (!isValid || index > 1)
       return false;
   }
   return true;
 }
 
 // checks if the given decimal number is valid
-bool NumberConverter::isDecimalNumberValid(char *decimalNo) {
-  int length = strlen(decimalNo);
-  if (length > 19)
-    throw "Only 19 digit numbers are allowed for decimal manipulations";
+bool NumberConverter::isDecimalNumberValid(std::string decimalNo) {
+  int length = decimalNo.length();
+  unsigned int location = decimalNo.find(".");
+
+  if (length == 1 && location == 0)
+    return false;
+  if (location > (length - 1) && length > 19)
+    throw "Only 19 integer digit are allowed for decimal manipulations";
+
+  if (location < length && location > 19)
+    throw "Only 19 integer digit are allowed for decimal manipulations";
+  // std::cout << length - location +1 << std::endl;
+  if (location < length && (length - location - 1) > 19)
+    throw "Only 19 floating digits are allowed for decimal manipulations";
+
   bool isValid = false;
-  for (int i = length - 1; i >= 0; i--) {
-    isValid = (decimalNo[i] >= 48 && decimalNo[i] <= 57) ? true : false;
-    if (!isValid)
+  int index = 0;
+  for (int i = 0; i < length; i++) {
+    isValid = (decimalNo[i] >= 48 && decimalNo[i] <= 57) ? true
+              : decimalNo[i] == '.'                      ? true
+                                                         : false;
+    index = decimalNo[i] == '.' ? ++index : index;
+    if (!isValid || index > 1)
       return false;
   }
   return true;
 }
 
 // checks if the given octal number is valid
-bool NumberConverter::isOctalNumberValid(char *octalNo) {
-  int length = strlen(octalNo);
-  if (length > 19)
-    throw "Only 19 digit numbers are allowed for octal manipulations";
+bool NumberConverter::isOctalNumberValid(std::string octalNo) {
+  int length = octalNo.length();
+  unsigned int location = octalNo.find(".");
+
+  if (length == 1 && location == 0)
+    return false;
+  if (location > (length - 1) && length > 19)
+    throw "Only 19 integer digit are allowed for octal manipulations";
+
+  if (location < length && location > 19)
+    throw "Only 19 integer digit are allowed for octal manipulations";
+  // std::cout << length - location +1 << std::endl;
+  if (location < length && (length - location - 1) > 19)
+    throw "Only 19 floating digits are allowed for octal manipulations";
+
   bool isValid = false;
-  for (int i = length - 1; i >= 0; i--) {
-    isValid = (octalNo[i] >= 48 && octalNo[i] <= 55) ? true : false;
-    if (!isValid)
+  int index = 0;
+  for (int i = 0; i < length; i++) {
+    isValid = (octalNo[i] >= 48 && octalNo[i] <= 55) ? true
+              : octalNo[i] == '.'                    ? true
+                                                     : false;
+
+    index = octalNo[i] == '.' ? ++index : index;
+    if (!isValid || index > 1)
       return false;
   }
   return true;
 }
 
 // checks if the given hexadecimal number is valid
-bool NumberConverter::isHexadecimalNumberValid(char *hexadecimalNo) {
-  int length = strlen(hexadecimalNo);
-  if (length > 16)
-    throw "Only 16 digit numbers are allowed for hexadecimal manipulations";
-  bool isValid = false;
-  // 48 to 57 -> 0 to 9
-  // 65 to 70 -> A to F
-  // 97 to 102 -> a to f
-  for (int i = length - 1; i >= 0; i--) {
+bool NumberConverter::isHexadecimalNumberValid(std::string hexadecimalNo) {
+  int length = hexadecimalNo.length();
+  unsigned int location = hexadecimalNo.find(".");
 
+  if (length == 1 && location == 0)
+    return false;
+
+  if (location > (length - 1) && length > 16)
+    throw "Only 16 integer digit are allowed for heaxdecimal manipulations";
+
+  if (location < length && location > 16)
+    throw "Only 19 integer digit are allowed for hexadecimal manipulations";
+  // std::cout << length - location +1 << std::endl;
+  if (location < length && (length - location - 1) > 19)
+    throw "Only 19 floating digits are allowed for hexadecimal manipulations";
+
+  bool isValid = false;
+  int index = 0;
+  for (int i = 0; i < length; i++) {
     isValid = (hexadecimalNo[i] >= 48 && hexadecimalNo[i] <= 57)    ? true
               : (hexadecimalNo[i] >= 65 && hexadecimalNo[i] <= 70)  ? true
               : (hexadecimalNo[i] >= 97 && hexadecimalNo[i] <= 102) ? true
+              : hexadecimalNo[i] == '.'                             ? true
                                                                     : false;
-    // isValid = (hexadecimalNo[i] >= 48 && hexadecimalNo[i] <= 57) ||
-    //                   (hexadecimalNo[i] >= 65 && hexadecimalNo[i] <= 70) ||
-    //                   (hexadecimalNo[i] >= 97 && hexadecimalNo[i] <= 102)
-    //               ? true
-    //               : false;
-    if (!isValid)
+
+    index = hexadecimalNo[i] == '.' ? ++index : index;
+    if (!isValid || index > 1)
       return false;
   }
-  return isValid;
+  return true;
 }
 
 // converts a decimal number to binary number
 std::string NumberConverter::decimalToBinary(char *decimalNo,
                                              char *floatDecimalNo) {
-  int length = strlen(decimalNo);
-
-  bool isValid = isDecimalNumberValid(decimalNo);
-  if (isValid) {
+  std::string binaryNo = "";
+  bool isZero = strlen(decimalNo) == 1 && decimalNo[0] == '0' ? true : false;
+  if (decimalNo != nullptr && !isZero) {
+    int length = strlen(decimalNo);
     unsigned long long decimal = strtoull(decimalNo, nullptr, 10);
     while (decimal != 0) {
       int rem = decimal % 2;
       stack.push(rem);
       decimal = decimal / 2;
     }
-    std::string binaryNo = "";
     while (!stack.isEmpty()) {
       int binary = stack.pop();
       binaryNo += std::to_string(binary);
     }
-    // std::cout << sizeof(binaryNo) << std::endl;
-    // return binaryNo;
 
-    if (floatDecimalNo != nullptr) {
-      // binaryNo = binaryNo + "0";
-      int length = strlen(floatDecimalNo);
-      unsigned long long floatDec = strtoull(floatDecimalNo, nullptr, 10);
-      long double floatDecimal = (long double)floatDec / pow(10, length);
-      int temp = 0;
-      for (int i = 0; i < 6 && floatDecimal != 0; i++) {
-        // floatDecimal -= temp; // See below
-        floatDecimal *= 2;
-        temp = (int)floatDecimal;
-        stack.push(temp);
-        floatDecimal -= temp;
-      }
-      std::string floatBinaryNo = "";
-      while (!stack.isEmpty()) {
-        int binary = stack.pop();
-        floatBinaryNo = std::to_string(binary) + floatBinaryNo;
-      }
-      return binaryNo + "." + floatBinaryNo;
+  } else
+    binaryNo += "0";
+
+  if (floatDecimalNo != nullptr) {
+    int length = strlen(floatDecimalNo);
+    unsigned long long floatDec = strtoull(floatDecimalNo, nullptr, 10);
+    long double floatDecimal = (long double)floatDec / pow(10, length);
+    int temp = 0;
+    for (int i = 0; i < 6 && floatDecimal != 0; i++) {
+      floatDecimal *= 2;
+      temp = (int)floatDecimal;
+      stack.push(temp);
+      floatDecimal -= temp;
     }
-    return binaryNo;
+    std::string floatBinaryNo = "";
+    while (!stack.isEmpty()) {
+      int binary = stack.pop();
+      floatBinaryNo = std::to_string(binary) + floatBinaryNo;
+    }
+    return binaryNo + "." + (floatBinaryNo == "" ? "0" : floatBinaryNo);
   }
-  throw "The decimal number is not valid";
+  return binaryNo;
 }
 
 // converts a decimal number to octal number
 std::string NumberConverter::decimalToOctal(char *decimalNo,
                                             char *floatDecimalNo) {
-  int length = strlen(decimalNo);
-
-  bool isValid = isDecimalNumberValid(decimalNo);
-  if (isValid) {
+  std::string octalNo = "";
+  bool isZero = strlen(decimalNo) == 1 && decimalNo[0] == '0' ? true : false;
+  if (decimalNo != nullptr && !isZero) {
+    int length = strlen(decimalNo);
     unsigned long long decimal = strtoull(decimalNo, nullptr, 10);
     while (decimal != 0) {
       int rem = decimal % 8;
       stack.push(rem);
       decimal = decimal / 8;
     }
-    std::string octalNo = "";
     while (!stack.isEmpty()) {
       int octal = stack.pop();
       octalNo += std::to_string(octal);
     }
-    // return octalNo;
-    if (floatDecimalNo != nullptr) {
-      int length = strlen(floatDecimalNo);
-      unsigned long long floatDec = strtoull(floatDecimalNo, nullptr, 10);
-      long double floatDecimal = (long double)floatDec / pow(10, length);
-      int temp = 0;
-      for (int i = 0; i < 6 && floatDecimal != 0; i++) {
-        // floatDecimal -= temp; // See below
-        floatDecimal *= 8;
-        temp = (int)floatDecimal;
-        stack.push(temp);
-        floatDecimal -= temp;
-      }
-      std::string floatOctalNo = "";
-      while (!stack.isEmpty()) {
-        int octal = stack.pop();
-        floatOctalNo = std::to_string(octal) + floatOctalNo;
-      }
-      return octalNo + "." + floatOctalNo;
+  } else
+    octalNo += "0";
+
+  if (floatDecimalNo != nullptr) {
+    int length = strlen(floatDecimalNo);
+    unsigned long long floatDec = strtoull(floatDecimalNo, nullptr, 10);
+    long double floatDecimal = (long double)floatDec / pow(10, length);
+    int temp = 0;
+    for (int i = 0; i < 6 && floatDecimal != 0; i++) {
+      // floatDecimal -= temp; // See below
+      floatDecimal *= 8;
+      temp = (int)floatDecimal;
+      stack.push(temp);
+      floatDecimal -= temp;
     }
-    return octalNo;
+    std::string floatOctalNo = "";
+    while (!stack.isEmpty()) {
+      int octal = stack.pop();
+      floatOctalNo = std::to_string(octal) + floatOctalNo;
+    }
+    return octalNo + "." + (floatOctalNo == "" ? "0" : floatOctalNo);
   }
-  throw "The decimal number is not valid";
+  return octalNo;
 }
 
 // converts a decimal number to hexadecimal number
 std::string NumberConverter::decimalToHexadecimal(char *decimalNo,
                                                   char *floatDecimalNo) {
-  int length = strlen(decimalNo);
 
-  bool isValid = isDecimalNumberValid(decimalNo);
-  if (isValid) {
+  std::string hexadecimalNo = "";
+  bool isZero = strlen(decimalNo) == 1 && decimalNo[0] == '0' ? true : false;
+  if (decimalNo != nullptr && !isZero) {
+    int length = strlen(decimalNo);
     unsigned long long decimal = strtoull(decimalNo, nullptr, 10);
     while (decimal != 0) {
       int rem = decimal % 16;
@@ -174,105 +229,53 @@ std::string NumberConverter::decimalToHexadecimal(char *decimalNo,
       decimal = decimal / 16;
     }
     char charHex;
-    std::string hexadecimalNo = "";
     while (!stack.isEmpty()) {
       int hex = stack.pop();
-      switch (hex) {
-      case 10:
-        charHex = 'A';
-        break;
-
-      case 11:
-        charHex = 'B';
-        break;
-
-      case 12:
-        charHex = 'C';
-        break;
-
-      case 13:
-        charHex = 'D';
-        break;
-
-      case 14:
-        charHex = 'E';
-
-        break;
-
-      case 15:
-        charHex = 'F';
-        break;
-
-      default:
-        charHex = '0' + hex;
-        break;
-      }
+      if (hex <= 9)
+        charHex = hex + '0';
+      else
+        charHex = hex + '7';
 
       hexadecimalNo += charHex;
     }
-    // return hexadecimalNo;
+  } else
+    hexadecimalNo += "0";
 
-    if (floatDecimalNo != nullptr) {
-      int length = strlen(floatDecimalNo);
-      unsigned long long floatDec = strtoull(floatDecimalNo, nullptr, 10);
-      long double floatDecimal = (long double)floatDec / pow(10, length);
-      int temp = 0;
-      for (int i = 0; i < 6 && floatDecimal != 0; i++) {
-        // floatHexadecimal -= temp;
-        floatDecimal *= 16;
-        temp = (int)floatDecimal;
-        stack.push(temp);
-        floatDecimal -= temp;
-      }
-      std::string floatHexadecimalNo = "";
-      char floatCharHex;
-      while (!stack.isEmpty()) {
-        int hex = stack.pop();
-        switch (hex) {
-        case 10:
-          floatCharHex = 'A';
-          break;
-
-        case 11:
-          floatCharHex = 'B';
-          break;
-
-        case 12:
-          floatCharHex = 'C';
-          break;
-
-        case 13:
-          floatCharHex = 'D';
-          break;
-
-        case 14:
-          floatCharHex = 'E';
-
-          break;
-
-        case 15:
-          floatCharHex = 'F';
-          break;
-
-        default:
-          floatCharHex = '0' + hex;
-          break;
-        }
-        floatHexadecimalNo = floatCharHex + floatHexadecimalNo;
-      }
-      return hexadecimalNo + "." + floatHexadecimalNo;
+  if (floatDecimalNo != nullptr) {
+    int length = strlen(floatDecimalNo);
+    unsigned long long floatDec = strtoull(floatDecimalNo, nullptr, 10);
+    long double floatDecimal = (long double)floatDec / pow(10, length);
+    int temp = 0;
+    for (int i = 0; i < 6 && floatDecimal != 0; i++) {
+      // floatHexadecimal -= temp;
+      floatDecimal *= 16;
+      temp = (int)floatDecimal;
+      stack.push(temp);
+      floatDecimal -= temp;
     }
-    return hexadecimalNo;
+    std::string floatHexadecimalNo = "";
+    char floatCharHex;
+    while (!stack.isEmpty()) {
+      int hex = stack.pop();
+      if (hex <= 9)
+        floatCharHex = hex + '0';
+      else
+        floatCharHex = hex + '7';
+
+      floatHexadecimalNo = floatCharHex + floatHexadecimalNo;
+    }
+    return hexadecimalNo + "." +
+           (floatHexadecimalNo == "" ? "0" : floatHexadecimalNo);
   }
-  throw "The decimal number is not valid";
+  return hexadecimalNo;
 }
 
 // converts a binary number to decimal number
-long double NumberConverter::binaryToDecimal(char *binaryNo,
+std::string NumberConverter::binaryToDecimal(char *binaryNo,
                                              char *floatBinaryNo) {
-  int length = strlen(binaryNo);
-  bool isValid = isBinaryNumberValid(binaryNo);
-  if (isValid) {
+  unsigned int decimalNo = 0;
+  if (binaryNo != nullptr) {
+    int length = strlen(binaryNo);
     int power = 0;
     for (int i = length - 1; i >= 0; i--) {
       int digit = binaryNo[i] - '0';
@@ -280,54 +283,44 @@ long double NumberConverter::binaryToDecimal(char *binaryNo,
       stack.push(decimal);
       power++;
     }
-    unsigned int decimalNo = 0;
     while (!stack.isEmpty()) {
       decimalNo += stack.pop();
     }
-    // return decimalNo;
-
-    if (floatBinaryNo != nullptr) {
-      int length = strlen(floatBinaryNo);
-      // unsigned long long binary = strtoull(floatBinaryNo, nullptr, 10);
-      // int power = -1;
-      for (int i = length - 1; i >= 0; i--) {
-        int digit = floatBinaryNo[i] - '0';
-        // long double decimal = digit * pow(2, power);
-        stack.push(digit);
-        // power--;
-      }
-      int power = -1;
-      long double floatDecimalNo = 0;
-      while (!stack.isEmpty()) {
-        int digit = stack.top();
-        floatDecimalNo += digit * pow(2, power);
-        power--;
-        stack.pop();
-      }
-      return decimalNo + floatDecimalNo;
-    }
-    return decimalNo;
   }
-  throw "The binary number is not valid";
+
+  if (floatBinaryNo != nullptr) {
+    int length = strlen(floatBinaryNo);
+    for (int i = length - 1; i >= 0; i--) {
+      int digit = floatBinaryNo[i] - '0';
+      stack.push(digit);
+    }
+    int power = -1;
+    long double floatDecimalNo = 0;
+    while (!stack.isEmpty()) {
+      int digit = stack.top();
+      floatDecimalNo += digit * pow(2, power);
+      power--;
+      stack.pop();
+    }
+    return std::to_string(decimalNo + floatDecimalNo);
+  }
+  return std::to_string(decimalNo);
 }
 
 // converts a binary number to octal number
 std::string NumberConverter::binaryToOctal(char *binaryNo,
                                            char *floatBinaryNo) {
-  long double decimal = binaryToDecimal(binaryNo, floatBinaryNo);
-  std::string dec = std::to_string(decimal);
-
-  if (dec.find(".") < dec.size()) {
+  std::string dec = binaryToDecimal(binaryNo, floatBinaryNo);
+  unsigned int location = dec.find(".");
+  int length = dec.length();
+  if (location < length) {
     std::string integralDec = "";
     std::string floatDec = "";
-    // std::string integral = "";
-    // std::string floating = "";
-    // bool isFloatingPart = false;
-    for (int i = 0; i < dec.size(); i++) {
-      if (i < dec.find(".")) {
+    for (int i = 0; i < length; i++) {
+      if (i < location) {
         integralDec += dec[i];
       }
-      if (i > dec.find(".")) {
+      if (i > location) {
         floatDec += dec[i];
       }
     }
@@ -347,19 +340,17 @@ std::string NumberConverter::binaryToOctal(char *binaryNo,
 // converts a binary number to hexadecimal number
 std::string NumberConverter::binaryToHexadecimal(char *binaryNo,
                                                  char *floatBinaryNo) {
-  long double decimal = binaryToDecimal(binaryNo, floatBinaryNo);
-  std::string dec = std::to_string(decimal);
-  if (dec.find(".") < dec.size()) {
+  std::string dec = binaryToDecimal(binaryNo, floatBinaryNo);
+  unsigned int location = dec.find(".");
+  int length = dec.length();
+  if (location < length) {
     std::string integralDec = "";
     std::string floatDec = "";
-    // std::string integral = "";
-    // std::string floating = "";
-    // bool isFloatingPart = false;
     for (int i = 0; i < dec.size(); i++) {
-      if (i < dec.find(".")) {
+      if (i < location) {
         integralDec += dec[i];
       }
-      if (i > dec.find(".")) {
+      if (i > location) {
         floatDec += dec[i];
       }
     }
@@ -377,10 +368,11 @@ std::string NumberConverter::binaryToHexadecimal(char *binaryNo,
 }
 
 // converts a octal number to decimal number
-long double NumberConverter::octalToDecimal(char *octalNo, char *floatOctalNo) {
-  int length = strlen(octalNo);
-  bool isValid = isOctalNumberValid(octalNo);
-  if (isValid) {
+std::string NumberConverter::octalToDecimal(char *octalNo, char *floatOctalNo) {
+
+  unsigned long long decimalNo = 0;
+  if (octalNo != nullptr) {
+    int length = strlen(octalNo);
     int power = 0;
     for (int i = length - 1; i >= 0; i--) {
       int digit = octalNo[i] - '0';
@@ -388,51 +380,43 @@ long double NumberConverter::octalToDecimal(char *octalNo, char *floatOctalNo) {
       stack.push(decimal);
       power++;
     }
-    unsigned long long int decimalNo = 0;
     while (!stack.isEmpty()) {
       decimalNo += stack.pop();
     }
-    // return decimalNo;
-    if (floatOctalNo != nullptr) {
-      int length = strlen(floatOctalNo);
-      // unsigned long long binary = strtoull(floatOctalNo, nullptr, 10);
-      // int power = -1;
-      for (int i = length - 1; i >= 0; i--) {
-        int digit = floatOctalNo[i] - '0';
-        // long double decimal = digit * pow(2, power);
-        stack.push(digit);
-        // power--;
-      }
-      int power = -1;
-      long double floatDecimalNo = 0;
-      while (!stack.isEmpty()) {
-        int digit = stack.top();
-        floatDecimalNo += digit * pow(8, power);
-        power--;
-        stack.pop();
-      }
-      return decimalNo + floatDecimalNo;
-    }
-    return decimalNo;
   }
-  throw "The octal number is not valid";
+  if (floatOctalNo != nullptr) {
+    int length = strlen(floatOctalNo);
+
+    for (int i = length - 1; i >= 0; i--) {
+      int digit = floatOctalNo[i] - '0';
+      stack.push(digit);
+    }
+    int power = -1;
+    long double floatDecimalNo = 0;
+    while (!stack.isEmpty()) {
+      int digit = stack.top();
+      floatDecimalNo += digit * pow(8, power);
+      power--;
+      stack.pop();
+    }
+    return std::to_string(decimalNo + floatDecimalNo);
+  }
+  return std::to_string(decimalNo);
 }
 
 // converts a octal number to binary number
 std::string NumberConverter::octalToBinary(char *octalNo, char *floatOctalNo) {
-  long double decimal = octalToDecimal(octalNo, floatOctalNo);
-  std::string dec = std::to_string(decimal);
-  if (dec.find(".") < dec.size()) {
+  std::string dec = octalToDecimal(octalNo, floatOctalNo);
+  unsigned int location = dec.find(".");
+  int length = dec.length();
+  if (location < length) {
     std::string integralDec = "";
     std::string floatDec = "";
-    // std::string integral = "";
-    // std::string floating = "";
-    // bool isFloatingPart = false;
     for (int i = 0; i < dec.size(); i++) {
-      if (i < dec.find(".")) {
+      if (i < location) {
         integralDec += dec[i];
       }
-      if (i > dec.find(".")) {
+      if (i > location) {
         floatDec += dec[i];
       }
     }
@@ -452,19 +436,17 @@ std::string NumberConverter::octalToBinary(char *octalNo, char *floatOctalNo) {
 // converts a octal number to hexadecimal number
 std::string NumberConverter::octalToHexadecimal(char *octalNo,
                                                 char *floatOctalNo) {
-  long double decimal = octalToDecimal(octalNo, floatOctalNo);
-  std::string dec = std::to_string(decimal);
-  if (dec.find(".") < dec.size()) {
+  std::string dec = octalToDecimal(octalNo, floatOctalNo);
+  unsigned int location = dec.find(".");
+  int length = dec.length();
+  if (location < length) {
     std::string integralDec = "";
     std::string floatDec = "";
-    // std::string integral = "";
-    // std::string floating = "";
-    // bool isFloatingPart = false;
     for (int i = 0; i < dec.size(); i++) {
-      if (i < dec.find(".")) {
+      if (i < location) {
         integralDec += dec[i];
       }
-      if (i > dec.find(".")) {
+      if (i > location) {
         floatDec += dec[i];
       }
     }
@@ -482,67 +464,80 @@ std::string NumberConverter::octalToHexadecimal(char *octalNo,
 }
 
 // converts a hexadecimal number to decimal number
-unsigned long long NumberConverter::hexadecimalToDecimal(char *hexadecimalNo) {
-  int length = strlen(hexadecimalNo);
-  bool isValid = isHexadecimalNumberValid(hexadecimalNo);
-  if (isValid) {
+std::string NumberConverter::hexadecimalToDecimal(char *hexadecimalNo,
+                                                  char *floatHexadecimalNo) {
+    unsigned long long decimalNo = 0;
+  if (hexadecimalNo != nullptr) {
+    int length = strlen(hexadecimalNo);
     int power = 0;
     int hexNum;
     for (int i = length - 1; i >= 0; i--) {
-      switch (hexadecimalNo[i]) {
-
-      case 'A':
-      case 'a':
-        hexNum = 10;
-        break;
-
-      case 'B':
-      case 'b':
-        hexNum = 11;
-        break;
-
-      case 'C':
-      case 'c':
-        hexNum = 12;
-        break;
-
-      case 'D':
-      case 'd':
-        hexNum = 13;
-        break;
-
-      case 'E':
-      case 'e':
-        hexNum = 14;
-        break;
-
-      case 'F':
-      case 'f':
-        hexNum = 15;
-        break;
-
-      default:
+      if (hexadecimalNo[i] >= 48 && hexadecimalNo[i] <= 57)
         hexNum = hexadecimalNo[i] - '0';
-        break;
-      }
+      else if (hexadecimalNo[i] >= 97 && hexadecimalNo[i] <= 102)
+        hexNum = hexadecimalNo[i] - 'a' + 10;
+      else
+        hexNum = hexadecimalNo[i] - 'A' + 10;
+
       unsigned long long decimal = hexNum * pow(16, power);
       stack.push(decimal);
       power++;
     }
-    unsigned long long decimalNo = 0;
     while (!stack.isEmpty()) {
       decimalNo += stack.pop();
     }
-    return decimalNo;
-  } else {
-    throw "The hexadecimal number is not valid";
   }
+
+  if (floatHexadecimalNo != nullptr) {
+    int length = strlen(floatHexadecimalNo);
+    int floatHexNum;
+    for (int i = length - 1; i >= 0; i--) {
+      if (floatHexadecimalNo[i] >= 48 && floatHexadecimalNo[i] <= 57)
+        floatHexNum = floatHexadecimalNo[i] - '0';
+      else if (floatHexadecimalNo[i] >= 97 && floatHexadecimalNo[i] <= 102)
+        floatHexNum = floatHexadecimalNo[i] - 'a' + 10;
+      else
+        floatHexNum = floatHexadecimalNo[i] - 'A' + 10;
+
+      stack.push(floatHexNum);
+    }
+    int power = -1;
+    long double floatDecimalNo = 0;
+    while (!stack.isEmpty()) {
+      int digit = stack.top();
+      floatDecimalNo += digit * pow(16, power);
+      power--;
+      stack.pop();
+    }
+    return std::to_string(decimalNo + floatDecimalNo);
+  }
+  return std::to_string(decimalNo);
 }
 
 // converts a hexadecimal number to binary number
-std::string NumberConverter::hexadecimalToBinary(char *hexadecimalNo) {
-  unsigned long long decimal = hexadecimalToDecimal(hexadecimalNo);
-  std::string dec = std::to_string(decimal);
+std::string NumberConverter::hexadecimalToBinary(char *hexadecimalNo,
+                                                 char *floatHexadecimalNo) {
+  std::string dec = hexadecimalToDecimal(hexadecimalNo, floatHexadecimalNo);
+  unsigned int location = dec.find(".");
+  int length = dec.length();
+  if (location < length) {
+    std::string integralDec = "";
+    std::string floatDec = "";
+    for (int i = 0; i < dec.size(); i++) {
+      if (i < location) {
+        integralDec += dec[i];
+      }
+      if (i > location) {
+        floatDec += dec[i];
+      }
+    }
+    char intPart[integralDec.size()];
+    char floatPart[floatDec.size()];
+    strcpy(intPart, integralDec.c_str());
+    strcpy(floatPart, floatDec.c_str());
+    std::string binaryNo = decimalToBinary(intPart, floatPart);
+    return binaryNo;
+  }
   char decimalNo[dec.size()];
   strcpy(decimalNo, dec.c_str());
   std::string binaryNo = decimalToBinary(decimalNo);
@@ -550,9 +545,29 @@ std::string NumberConverter::hexadecimalToBinary(char *hexadecimalNo) {
 }
 
 // converts a hexadecimal number to octal number
-std::string NumberConverter::hexadecimalToOctal(char *hexadecimalNo) {
-  unsigned long long decimal = hexadecimalToDecimal(hexadecimalNo);
-  std::string dec = std::to_string(decimal);
+std::string NumberConverter::hexadecimalToOctal(char *hexadecimalNo,
+                                                char *floatHexadecimalNo) {
+  std::string dec = hexadecimalToDecimal(hexadecimalNo, floatHexadecimalNo);
+  unsigned int location = dec.find(".");
+  int length = dec.length();
+  if (location < length) {
+    std::string integralDec = "";
+    std::string floatDec = "";
+    for (int i = 0; i < dec.size(); i++) {
+      if (i < location) {
+        integralDec += dec[i];
+      }
+      if (i > location) {
+        floatDec += dec[i];
+      }
+    }
+    char intPart[integralDec.size()];
+    char floatPart[floatDec.size()];
+    strcpy(intPart, integralDec.c_str());
+    strcpy(floatPart, floatDec.c_str());
+    std::string octalNo = decimalToOctal(intPart, floatPart);
+    return octalNo;
+  }
   char decimalNo[dec.size()];
   strcpy(decimalNo, dec.c_str());
   std::string octalNo = decimalToOctal(decimalNo);
