@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 
+// Actual Number conversion
 void convert(NumberConverter &numConverter, std::string &code, char *integral,
              char *floating = nullptr) {
   if (code == "01") {
@@ -108,27 +109,29 @@ int main() {
       if (!isValid)
         throw "Your number is invalid";
 
-
       std::string code = from + to;
 
-      if(code == "00" || code == "11"|| code == "22"|| code == "33")
+      if (code == "00" || code == "11" || code == "22" || code == "33")
         throw "\nInvalid Conversion\ns";
 
       int length = number.length();
       char b[length];
       strcpy(b, number.c_str());
       unsigned int location = number.find(".");
-      if (location == length - 1) {
+
+      if (location == length - 1) { // If the number ends with a decimal point
         number.replace(number.size() - 1, number.size(), "");
         char num[number.size()];
         strcpy(num, number.c_str());
         convert(numConverter, code, num);
-      } else if (location == 0) {
+
+      } else if (location == 0) {   // If the number starts with a decimal point
         number.replace(0, 1, "");
         char num[number.size()];
         strcpy(num, number.c_str());
         convert(numConverter, code, nullptr, num);
-      } else if (location < length) {
+
+      } else if (location < length) {  // If the decimal point is between the numbers
         std::string integral = "";
         std::string floating = "";
         for (int i = 0; i < length; i++) {
@@ -147,22 +150,16 @@ int main() {
         strcpy(floatPart, floating.c_str());
 
         convert(numConverter, code, intPart, floatPart);
-      } else {
+
+      } else {                           // No decimal point
         convert(numConverter, code, b);
       }
 
-      std::string again;
-      std::cout << "Do you wish to continue?(Press Y/y to continue) ";
-      std::cin >> again;
-
-      if (again == "y" || again == "Y")
-        continue;
-      else
-        break;
-
+     
     } catch (const char *error) {
       std::cout << error << std::endl;
-      std::string again;
+    }
+     std::string again;
       std::cout << "Do you wish to continue?(Press Y/y to continue) ";
       std::cin >> again;
 
@@ -170,7 +167,5 @@ int main() {
         continue;
       else
         break;
-      // break;
-    }
   }
 }

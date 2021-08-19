@@ -144,8 +144,9 @@ std::string NumberConverter::decimalToBinary(char *decimalNo,
       decimal = decimal / 2;
     }
     while (!stack.isEmpty()) {
-      int binary = stack.pop();
+      int binary = stack.top();
       binaryNo += std::to_string(binary);
+      stack.pop();
     }
 
   } else
@@ -164,8 +165,9 @@ std::string NumberConverter::decimalToBinary(char *decimalNo,
     }
     std::string floatBinaryNo = "";
     while (!stack.isEmpty()) {
-      int binary = stack.pop();
+      int binary = stack.top();
       floatBinaryNo = std::to_string(binary) + floatBinaryNo;
+      stack.pop();
     }
     return binaryNo + "." + (floatBinaryNo == "" ? "0" : floatBinaryNo);
   }
@@ -186,8 +188,9 @@ std::string NumberConverter::decimalToOctal(char *decimalNo,
       decimal = decimal / 8;
     }
     while (!stack.isEmpty()) {
-      int octal = stack.pop();
+      int octal = stack.top();
       octalNo += std::to_string(octal);
+      stack.pop();
     }
   } else
     octalNo += "0";
@@ -206,8 +209,9 @@ std::string NumberConverter::decimalToOctal(char *decimalNo,
     }
     std::string floatOctalNo = "";
     while (!stack.isEmpty()) {
-      int octal = stack.pop();
+      int octal = stack.top();
       floatOctalNo = std::to_string(octal) + floatOctalNo;
+      stack.pop();
     }
     return octalNo + "." + (floatOctalNo == "" ? "0" : floatOctalNo);
   }
@@ -230,13 +234,14 @@ std::string NumberConverter::decimalToHexadecimal(char *decimalNo,
     }
     char charHex;
     while (!stack.isEmpty()) {
-      int hex = stack.pop();
+      int hex = stack.top();
       if (hex <= 9)
         charHex = hex + '0';
       else
         charHex = hex + '7';
 
       hexadecimalNo += charHex;
+      stack.top();
     }
   } else
     hexadecimalNo += "0";
@@ -256,13 +261,14 @@ std::string NumberConverter::decimalToHexadecimal(char *decimalNo,
     std::string floatHexadecimalNo = "";
     char floatCharHex;
     while (!stack.isEmpty()) {
-      int hex = stack.pop();
+      int hex = stack.top();
       if (hex <= 9)
         floatCharHex = hex + '0';
       else
         floatCharHex = hex + '7';
 
       floatHexadecimalNo = floatCharHex + floatHexadecimalNo;
+      stack.pop();
     }
     return hexadecimalNo + "." +
            (floatHexadecimalNo == "" ? "0" : floatHexadecimalNo);

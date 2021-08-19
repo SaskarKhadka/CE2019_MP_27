@@ -4,7 +4,7 @@
 #include <iostream>
 
 class NumberConverter {
-  LinkedStack stack;
+  LinkedStack<unsigned long long> stack;
 
 public:
   // Constructor

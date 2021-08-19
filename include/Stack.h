@@ -1,33 +1,41 @@
 #pragma once
 #include "LinkedList.h"
+#include <iostream>
 
-class Stack {
+
+template <typename T> class Stack {
 
 public:
   virtual ~Stack() {}
   virtual bool isEmpty() = 0;
-  virtual void push(const unsigned long long data) = 0;
-  virtual unsigned long long pop() = 0;
-  virtual unsigned long long top() = 0;
+  virtual void push(const T data) = 0;
+  virtual T pop() = 0;
+  virtual T top() = 0;
 };
 
-class LinkedStack : public Stack {
+template <typename T> class LinkedStack : public Stack<T> {
 private:
   // A LinkedList object
-  LinkedList linkedList;
+  LinkedList<T> linkedList;
 
 public:
   // Checks if the linked stack is empty
-  virtual bool isEmpty();
-  
+  virtual bool isEmpty() { return this->linkedList.isEmpty(); }
+
   // Adds data to the top of the linked stack
-  virtual void push(const unsigned long long data);
+  virtual void push(const T data) { this->linkedList.addToHead(data); }
 
   // Removes and returns the value stored at top
-  virtual unsigned long long pop();
+  virtual T pop() {
+    T data = this->linkedList.removeFromHead();
+    return data;
+  }
 
   // Returns the value stored at top
-  virtual unsigned long long top();
+  virtual T top() {
+    T top = linkedList.getHeadInfo();
+    return top;
+  }
 
   // Destructor
   virtual ~LinkedStack() {}
