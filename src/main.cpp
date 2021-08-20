@@ -6,6 +6,10 @@
 void convert(NumberConverter &numConverter, std::string &code,
              std::string value) {
   unsigned long long integral;
+
+  /* If conversion if from Hexadecimal, no need to convert
+    it into a number
+  */
   if (code[0] != '3')
     integral = stoull(value, nullptr, 10);
 

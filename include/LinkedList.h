@@ -202,8 +202,8 @@ public:
       if (temp == nullptr)
         throw std::string("Your list doesnot contain" + std::to_string(data));
       else {
-        *dataOutPointer = *temp;
-        return temp;
+        dataOutPointer = temp;
+        return dataOutPointer;
       }
     } else
       throw std::string("[Empty-List], Cannot retrive your data");
