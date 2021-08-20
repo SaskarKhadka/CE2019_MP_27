@@ -14,12 +14,16 @@ bool NumberConverter::isBinaryNumberValid(std::string binaryNo) {
   unsigned int location = binaryNo.find(".");
   int length = binaryNo.length();
 
-  if (location < length)
-    throw "Only integers are allowed";
+  if (location < length) // checks if the number contains a decimal point
+    throw "Only positive integers are allowed";
 
   unsigned long long binary;
+  // checks if the number is within the said range or not
   try {
     binary = stoull(binaryNo, nullptr, 10);
+    if (binary > 9999999999999999999U)
+      throw std::out_of_range("Out of range");
+
   } catch (const std::out_of_range &error) {
     throw "Only 19 digit numbers are allowed for binary manipulations";
   } catch (const std::invalid_argument &error) {
@@ -27,6 +31,7 @@ bool NumberConverter::isBinaryNumberValid(std::string binaryNo) {
   }
 
   bool isValid = false;
+  // checks if all the digits of the number are valid or not
   for (int i = 0; i < length; i++) {
     isValid = binaryNo[i] == '0' || binaryNo[i] == '1' ? true : false;
     if (!isValid)
@@ -40,12 +45,16 @@ bool NumberConverter::isDecimalNumberValid(std::string decimalNo) {
   unsigned int location = decimalNo.find(".");
   int length = decimalNo.length();
 
-  if (location < length)
-    throw "Only integers are allowed";
+  if (location < length) // checks if the number contains a decimal point
+    throw "Only positive integers are allowed";
 
   unsigned long long decimal;
+  // checks if the number is within the said range not
   try {
     decimal = stoull(decimalNo, nullptr, 10);
+    if (decimal > 9999999999999999999U)
+      throw std::out_of_range("Out of range");
+
   } catch (const std::out_of_range &error) {
     throw "Only 19 digit numbers are allowed for decimal manipulations";
   } catch (const std::invalid_argument &error) {
@@ -53,6 +62,7 @@ bool NumberConverter::isDecimalNumberValid(std::string decimalNo) {
   }
 
   bool isValid = false;
+  // checks if all the digits of the number are valid or not
   for (int i = 0; i < length; i++) {
     isValid = (decimalNo[i] >= 48 && decimalNo[i] <= 57) ? true : false;
     if (!isValid)
@@ -66,12 +76,16 @@ bool NumberConverter::isOctalNumberValid(std::string octalNo) {
   unsigned int location = octalNo.find(".");
   int length = octalNo.length();
 
-  if (location < length)
-    throw "Only integers are allowed";
+  if (location < length) // checks if the number contains a decimal point
+    throw "Only positive integers are allowed";
 
   unsigned long long octal;
+  // checks if the number is within the said range not
   try {
     octal = stoull(octalNo, nullptr, 10);
+    if (octal > 9999999999999999999U)
+      throw std::out_of_range("Out of range");
+
   } catch (const std::out_of_range &error) {
     throw "Only 19 digit numbers are allowed for octal manipulations";
   } catch (const std::invalid_argument &error) {
@@ -79,6 +93,7 @@ bool NumberConverter::isOctalNumberValid(std::string octalNo) {
   }
 
   bool isValid = false;
+  // checks if all the digits of the number are valid or not
   for (int i = 0; i < length; i++) {
     isValid = (octalNo[i] >= 48 && octalNo[i] <= 55) ? true : false;
     if (!isValid)
@@ -92,13 +107,15 @@ bool NumberConverter::isHexadecimalNumberValid(std::string hexadecimalNo) {
   int length = hexadecimalNo.length();
   unsigned int location = hexadecimalNo.find(".");
 
+  if (location < length) // checks if the number contains a decimal point
+    throw "Only positive integers are allowed";
+
+  // checks if the number is within the said range or not
   if (length > 15)
     throw "Only 15 digit numbers are allowed for hexadecimal manipulations";
 
-  if (location < length)
-    throw "Only integers are allowed";
-
   bool isValid = false;
+  // checks if all the digits of the number are valid or not
   for (int i = length - 1; i >= 0; i--) {
 
     isValid = (hexadecimalNo[i] >= 48 && hexadecimalNo[i] <= 57)    ? true
@@ -113,16 +130,22 @@ bool NumberConverter::isHexadecimalNumberValid(std::string hexadecimalNo) {
 
 // converts a decimal number to binary number
 std::string NumberConverter::decimalToBinary(unsigned long long decimalNo) {
-  unsigned long long decimal = decimalNo;
-  // unsigned long long decimal = strtoull(decimalNo, nullptr, 10);
-  if (decimal == 0)
-    return "0";
-  while (decimal != 0) {
-    int rem = decimal % 2;
+  if (decimalNo == 0)
+    return "0"; // if the input number 0, return 0
+
+  /* Divide the  decimal number by 2 and push the remainder
+  into the stack until the decimalNo is 0
+  */
+  while (decimalNo != 0) {
+    int rem = decimalNo % 2;
     stack.push(rem);
-    decimal = decimal / 2;
+    decimalNo = decimalNo / 2;
   }
   std::string binaryNo = "";
+
+  /* Pop the stack continuously until it is empty and
+   update the binary number in the process
+   */
   while (!stack.isEmpty()) {
     int binary = stack.top();
     binaryNo += std::to_string(binary);
@@ -133,16 +156,22 @@ std::string NumberConverter::decimalToBinary(unsigned long long decimalNo) {
 
 // converts a decimal number to octal number
 std::string NumberConverter::decimalToOctal(unsigned long long decimalNo) {
-  unsigned long long decimal = decimalNo;
-  // unsigned long long decimal = strtoull(decimalNo, nullptr, 10);
-  if (decimal == 0)
+  if (decimalNo == 0)
     return "0";
-  while (decimal != 0) {
-    int rem = decimal % 8;
+
+  /* Divide the  decimal number by 8 and push the remainder
+   into the stack until the decimalNo is 0
+  */
+  while (decimalNo != 0) {
+    int rem = decimalNo % 8;
     stack.push(rem);
-    decimal = decimal / 8;
+    decimalNo = decimalNo / 8;
   }
   std::string octalNo = "";
+
+  /* Pop the stack continuously until it is empty and
+  update the octal number in the process
+  */
   while (!stack.isEmpty()) {
     int octal = stack.top();
     octalNo += std::to_string(octal);
@@ -154,17 +183,23 @@ std::string NumberConverter::decimalToOctal(unsigned long long decimalNo) {
 // converts a decimal number to hexadecimal number
 std::string
 NumberConverter::decimalToHexadecimal(unsigned long long decimalNo) {
-  unsigned long long decimal = decimalNo;
-  // unsigned long long decimal = strtoull(decimalNo, nullptr, 10);
-  if (decimal == 0)
+  if (decimalNo == 0)
     return "0";
-  while (decimal != 0) {
-    int rem = decimal % 16;
+
+  /* Divide the  decimal number by 16 and push the remainder
+  into the stack until the decimalNo is 0
+  */
+  while (decimalNo != 0) {
+    int rem = decimalNo % 16;
     stack.push(rem);
-    decimal = decimal / 16;
+    decimalNo = decimalNo / 16;
   }
   char charHex;
   std::string hexadecimalNo = "";
+
+  /* Pop the stack continuously until it is empty and
+  update the hexadecimal number in the process
+  */
   while (!stack.isEmpty()) {
     int hex = stack.top();
     if (hex <= 9)
@@ -182,12 +217,16 @@ NumberConverter::decimalToHexadecimal(unsigned long long decimalNo) {
 unsigned int NumberConverter::binaryToDecimal(unsigned long long binaryNo) {
   int power = 0;
 
+  /* Take each digit starting from the last and
+  update the decimal equivalent in the stack
+   */
   while (binaryNo != 0) {
-    int rem = binaryNo % 10;
+    int rem = binaryNo % 10; // take out the last digit
     unsigned int decimal = rem * pow(2, power);
+
     int decimalNew = stack.isEmpty() ? decimal : (stack.pop() + decimal);
     stack.push(decimalNew);
-    binaryNo /= 10;
+    binaryNo /= 10; // throw away the last digit
     power++;
   }
 
@@ -197,7 +236,10 @@ unsigned int NumberConverter::binaryToDecimal(unsigned long long binaryNo) {
 
 // converts a binary number to octal number
 std::string NumberConverter::binaryToOctal(unsigned long long binaryNo) {
+  // Firstly, we convert the binary number into decimal
   unsigned int decimal = binaryToDecimal(binaryNo);
+
+  // Then we convert the decimal number into octal
   std::string octalNo = decimalToOctal(decimal);
   return octalNo;
 }
@@ -205,22 +247,25 @@ std::string NumberConverter::binaryToOctal(unsigned long long binaryNo) {
 // converts a binary number to hexadecimal number
 std::string NumberConverter::binaryToHexadecimal(unsigned long long binaryNo) {
   unsigned int decimal = binaryToDecimal(binaryNo);
-  std::string dec = std::to_string(decimal);
   std::string octalNo = decimalToHexadecimal(decimal);
   return octalNo;
 }
 
 // converts a octal number to decimal number
 unsigned long long NumberConverter::octalToDecimal(unsigned long long octalNo) {
-  // int length = strlen(octalNo);
+
   int power = 0;
+
+  /* Take each digit starting from the last and
+  update the decimal equivalent in the stack
+  */
   while (octalNo != 0) {
-    int rem = octalNo % 10;
+    int rem = octalNo % 10; // take out the last digit
     unsigned long long decimal = rem * pow(8, power);
     unsigned long long decimalNew =
         stack.isEmpty() ? decimal : (stack.pop() + decimal);
     stack.push(decimalNew);
-    octalNo /= 10;
+    octalNo /= 10; // throw away the last digit
     power++;
   }
 
@@ -250,9 +295,10 @@ NumberConverter::hexadecimalToDecimal(std::string hexadecimalNo) {
   int power = 0;
   int hexNum;
 
+  /* Take each digit starting from the last and
+  update the decimal equivalent in the stack
+   */
   for (int i = length - 1; i >= 0; i--) {
-    // int rem = hexadecimalNo % 10;
-
     if (hexadecimalNo[i] >= 48 && hexadecimalNo[i] <= 57)
       hexNum = hexadecimalNo[i] - '0';
     else if (hexadecimalNo[i] >= 97 && hexadecimalNo[i] <= 102)

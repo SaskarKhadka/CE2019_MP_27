@@ -1,7 +1,7 @@
 #include "../include/LinkedList.h"
 #include "../include/NumberConverter.h"
 #include <iostream>
-
+#include <math.h>
 // Actual Number conversion
 void convert(NumberConverter &numConverter, std::string &code,
              std::string value) {
@@ -92,6 +92,10 @@ int main() {
       std::cout << "Convert To: ";
       std::cin >> to;
 
+      std::string code = from + to;
+      if (code == "00" || code == "11" || code == "22" || code == "33")
+        throw "\nInvalid Conversions";
+
       if (from == "0") {
         std::cout << "\nEnter your decimal number: ";
         std::cin >> number;
@@ -115,11 +119,6 @@ int main() {
 
       if (!isValid)
         throw "Your number is invalid";
-
-      std::string code = from + to;
-
-      if (code == "00" || code == "11" || code == "22" || code == "33")
-        throw "\nInvalid Conversions\n";
 
       convert(numConverter, code, number);
 
